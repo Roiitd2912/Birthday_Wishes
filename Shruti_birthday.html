@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Shruti!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary: #ff6b81;
+            --secondary: #a8e6cf;
+            --accent: #fdcb6e;
+            --text: #2d3436;
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* The Card Container */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            max-width: 90%;
+            width: 450px;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.3s ease, opacity 0.5s ease;
+        }
+
+        .hidden {
+            display: none !important;
+            opacity: 0;
+        }
+
+        /* Typography */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--primary);
+            font-size: 3.5rem;
+            margin: 0 0 15px 0;
+            line-height: 1.2;
+        }
+
+        p {
+            color: #636e72;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Button Styling */
+        .btn-open {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 10px 20px rgba(255, 107, 129, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-open:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(255, 107, 129, 0.4);
+            background: #ff4757;
+        }
+
+        .btn-open:active {
+            transform: scale(0.95);
+        }
+
+        /* Photo Circle */
+        .photo-frame {
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            border: 6px solid #fff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Message Typing Effect Cursor */
+        #message::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        /* Background Decorations */
+        .decoration {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen" class="card">
+        <h1>Hello there!</h1>
+        <p>A special surprise is waiting for you...</p>
+        <br>
+        <button class="btn-open" onclick="startCelebration()">Click to Open 🎁</button>
+    </div>
+
+    <div id="party-screen" class="card hidden">
+        <div class="photo-frame">
+            <img src="shruti.jpg" alt="Birthday Girl">
+        </div>
+        
+        <h1 id="bday-title">Happy Birthday!</h1>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        // --- CONFIGURATION SECTION ---
+        const config = {
+            name: "Shruti",
+            // I wrote this message to be warm, celebrating her brilliance and friendship.
+            messageText: "Happy Birthday, Shruti! 🎂✨ Wishing you a year as brilliant and amazing as you are. May your day be filled with laughter, success, and everything you’ve been dreaming of. Keep shining! 🥳"
+        };
+        // -----------------------------
+
+        function startCelebration() {
+            // 1. Switch Screens
+            const intro = document.getElementById('intro-screen');
+            const party = document.getElementById('party-screen');
+            const title = document.getElementById('bday-title');
+            
+            intro.classList.add('hidden');
+            party.classList.remove('hidden');
+
+            // 2. Set the Name
+            title.innerText = `Happy Birthday, ${config.name}!`;
+
+            // 3. Trigger Massive Confetti
+            fireConfetti();
+            
+            // 4. Start Typewriter Effect
+            typeWriter(config.messageText, 'message');
+        }
+
+        // Confetti Logic
+        function fireConfetti() {
+            var duration = 3 * 1000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                // Launch confetti from left and right edges
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff6b81', '#a8e6cf', '#fdcb6e']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff6b81', '#a8e6cf', '#fdcb6e']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+
+        // Typewriter Logic
+        function typeWriter(text, elementId) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = "";
+            let i = 0;
+            const speed = 40; // Typing speed in milliseconds
+
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    // Remove cursor after typing finishes
+                    const style = document.createElement('style');
+                    style.innerHTML = `#${elementId}::after { display: none; }`;
+                    document.head.appendChild(style);
+                }
+            }
+            type();
+        }
+
+        // Add floating background emojis
+        function addBackgroundDecor() {
+            const symbols = ['🎈', '✨', '🎂', '🎁', '🌟'];
+            for(let i=0; i<15; i++) {
+                const div = document.createElement('div');
+                div.classList.add('decoration');
+                div.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                div.style.left = Math.random() * 100 + 'vw';
+                div.style.top = Math.random() * 100 + 'vh';
+                div.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(div);
+            }
+        }
+        
+        addBackgroundDecor();
+
+    </script>
+</body>
+</html>
